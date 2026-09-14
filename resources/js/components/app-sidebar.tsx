@@ -1,4 +1,4 @@
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { BookOpen, FolderGit2, LayoutGrid } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
@@ -14,7 +14,8 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
-import type { NavItem } from '@/types';
+import type { NavItem, Workspace } from '@/types';
+
 
 const mainNavItems: NavItem[] = [
     {
@@ -38,6 +39,17 @@ const footerNavItems: NavItem[] = [
 ];
 
 export function AppSidebar() {
+
+    const page = usePage();
+
+    const workspaces = page.props.workspaces as Workspace[];
+
+    const workspaceNavItems: NavItem[] = workspaces.map((workspace) => ({
+            title: workspace.name,
+            href: `/workspaces/${workspace.id}`,
+            icon: LayoutGrid,
+        }));
+
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
@@ -53,6 +65,7 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
+                <NavMain items={workspaceNavItems} />
                 <NavMain items={mainNavItems} />
             </SidebarContent>
 
