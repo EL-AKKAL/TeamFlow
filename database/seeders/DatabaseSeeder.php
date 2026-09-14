@@ -10,16 +10,27 @@ class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
 
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
 
-        User::factory()->create([
+        $user = User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        $workspaces = $user->ownedWorkspaces()->createMany([
+            ['name' => 'Workspace 1'],
+            ['name' => 'Workspace 2'],
+            ['name' => 'Workspace 3'],
+            ['name' => 'Workspace 4'],
+            ['name' => 'Workspace 5'],
+        ]);
+
+        foreach ($workspaces as $workspace) {
+            $workspace->members()->attach($user->id, [
+                'role' => 'owner',
+                'joined_at' => now(),
+            ]);
+        }
     }
 }
