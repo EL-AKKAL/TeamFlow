@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Concerns\HasToast;
 use App\Models\Workspace;
 use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\RedirectResponse;
@@ -12,6 +13,8 @@ use Inertia\Response;
 
 class WorkspaceController extends Controller
 {
+    use HasToast;
+
     public function index(): Response
     {
         $workspaces = Auth::user()
@@ -46,9 +49,9 @@ class WorkspaceController extends Controller
             'joined_at' => now(),
         ]);
 
-        return redirect()
-            ->route('workspaces.show', $workspace)
-            ->with('success', 'Workspace created.');
+        $this->toast('workspace created successfully');
+
+        return to_route('dashboard');
     }
 
     public function show(Workspace $workspace): Response
