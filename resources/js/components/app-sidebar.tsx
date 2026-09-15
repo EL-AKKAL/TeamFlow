@@ -3,7 +3,7 @@ import { BookOpen, FolderGit2, LayoutGrid, Plus } from "lucide-react";
 import AppLogo from "@/components/app-logo";
 import { NavFooter } from "@/components/nav-footer";
 import { NavMain } from "@/components/nav-main";
-import { NavMainActions } from "@/components/nav-main-actions";
+import { CreateWorkspace } from "@/components/create-workspace";
 import { NavUser } from "@/components/nav-user";
 import {
     Sidebar,
@@ -38,13 +38,11 @@ const footerNavItems: NavItem[] = [
     },
 ];
 
-const workspaceActionItems: NavItem[] = [
-    {
-        title: "New Workspace",
-        href: "/workspaces/create",
-        icon: Plus,
-    },
-];
+const workspaceActionItem: NavItem = {
+    title: "New Workspace",
+    href: "/workspaces/create",
+    icon: Plus,
+};
 
 export function AppSidebar() {
     const page = usePage();
@@ -74,7 +72,7 @@ export function AppSidebar() {
             <SidebarContent>
                 <NavMain items={mainNavItems} />
                 <NavMain items={workspaceNavItems} title="Workspaces" />
-                <NavMainActions items={workspaceActionItems} />
+                <CreateWorkspace item={workspaceActionItem} />
             </SidebarContent>
 
             <SidebarFooter>
