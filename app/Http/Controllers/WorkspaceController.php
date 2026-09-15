@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Concerns\HasToast;
 use App\Models\Workspace;
-use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,11 +28,6 @@ class WorkspaceController extends Controller
         ]);
     }
 
-    public function create(): Response
-    {
-        return Inertia::render('Workspaces/Create');
-    }
-
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
@@ -43,7 +37,6 @@ class WorkspaceController extends Controller
 
         $workspace = Auth::user()->ownedWorkspaces()->create($validated);
 
-        // Owner is automatically a member with the 'owner' role.
         $workspace->members()->attach(Auth::id(), [
             'role' => 'owner',
             'joined_at' => now(),
