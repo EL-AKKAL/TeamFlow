@@ -7,7 +7,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { store } from "@/routes/workspaces";
 import { Form } from "@inertiajs/react";
 import { useRef } from "react";
@@ -30,11 +29,6 @@ export function CreateWorkspaceForm() {
                 <div className="grid gap-2">
                     <Label htmlFor="name">Title</Label>
                     <Input id="name" name="name" autoFocus />
-                </div>
-
-                <div className="grid gap-2">
-                    <Label htmlFor="description">Description</Label>
-                    <Textarea id="description" name="description" />
                 </div>
             </div>
 

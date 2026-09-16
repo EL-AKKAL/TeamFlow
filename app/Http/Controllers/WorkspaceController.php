@@ -32,7 +32,6 @@ class WorkspaceController extends Controller
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string', 'max:2000'],
         ]);
 
         $workspace = Auth::user()->ownedWorkspaces()->create($validated);
