@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Concerns\HasToast;
+use App\Http\Requests\WorkspaceRequest;
 use App\Models\Workspace;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -28,13 +29,10 @@ class WorkspaceController extends Controller
         ]);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(WorkspaceRequest $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-        ]);
 
-        $workspace = Auth::user()->ownedWorkspaces()->create($validated);
+        $workspace = Auth::user()->ownedWorkspaces()->create($request->validated());
 
         $workspace->members()->attach(Auth::id(), [
             'role' => 'owner',
