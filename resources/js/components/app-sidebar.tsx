@@ -24,6 +24,9 @@ const mainNavItems: NavItem[] = [
         title: "Dashboard",
         href: dashboard(),
         icon: LayoutGrid,
+        isActive: (url) =>
+            url === "/dashboard" ||
+            /^\/workspaces\/[^/]+\/dashboard$/.test(url),
     },
 ];
 

@@ -16,7 +16,7 @@ export function NavMain({
     items: NavItem[];
     title?: string;
 }) {
-    const { isCurrentUrl } = useCurrentUrl();
+    const { isCurrentUrl, currentUrl } = useCurrentUrl();
 
     return (
         <SidebarGroup className="px-2 py-0">
@@ -35,7 +35,11 @@ export function NavMain({
                         <SidebarMenuItem key={item.title}>
                             <SidebarMenuButton
                                 asChild
-                                isActive={isCurrentUrl(item.href)}
+                                isActive={
+                                    item.isActive
+                                        ? item.isActive(currentUrl)
+                                        : isCurrentUrl(item.href)
+                                }
                                 tooltip={{ children: item.title }}
                             >
                                 <Link href={item.href} prefetch>
