@@ -1,11 +1,46 @@
-import { Head } from '@inertiajs/react';
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
-import { dashboard } from '@/routes';
+import { Head } from "@inertiajs/react";
+import { Plus } from "lucide-react";
+import { PlaceholderPattern } from "@/components/ui/placeholder-pattern";
+import { dashboard } from "@/routes";
+import type { NavItem, Workspace } from "@/types";
+import { CreateWorkspace } from "@/components/create-workspace";
 
-export default function Dashboard() {
+const workspaceActionItem: NavItem = {
+    title: "New Workspace",
+    href: "/workspaces/create",
+    icon: Plus,
+};
+
+export default function Dashboard({
+    workspace,
+}: {
+    workspace: Workspace | null;
+}) {
+    if (!workspace) {
+        return (
+            <>
+                <Head title="Dashboard" />
+                <div className="flex h-full max-w-xl! w-full mx-auto flex-1 flex-col items-center justify-center gap-4 rounded-xl p-4 text-center">
+                    <div>
+                        <h2 className="text-lg font-semibold">
+                            No workspaces yet
+                        </h2>
+                        <p className="text-sm text-muted-foreground">
+                            Create your first workspace to get started.
+                        </p>
+                    </div>
+                    <CreateWorkspace
+                        item={workspaceActionItem}
+                        variant="outline"
+                    />
+                </div>
+            </>
+        );
+    }
+
     return (
         <>
-            <Head title="Dashboard" />
+            <Head title={workspace.name} />
             <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
                 <div className="grid auto-rows-min gap-4 md:grid-cols-3">
                     <div className="border-sidebar-border/70 dark:border-sidebar-border relative aspect-video overflow-hidden rounded-xl border">
@@ -29,7 +64,7 @@ export default function Dashboard() {
 Dashboard.layout = {
     breadcrumbs: [
         {
-            title: 'Dashboard',
+            title: "Dashboard",
             href: dashboard(),
         },
     ],
