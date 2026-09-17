@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/sidebar";
 import { dashboard } from "@/routes";
 import { dashboard as workspaceDashboard } from "@/routes/workspaces";
+import { createWorkspaceIcon } from "@/components/workspace-avatar";
 
 import type { NavItem, Workspace } from "@/types";
 
@@ -57,7 +58,7 @@ export function AppSidebar() {
     const workspaceNavItems: NavItem[] = workspaces.map((workspace) => ({
         title: workspace.name,
         href: workspaceDashboard(workspace.id),
-        icon: LayoutGrid,
+        icon: createWorkspaceIcon(workspace.name),
     }));
 
     return (
