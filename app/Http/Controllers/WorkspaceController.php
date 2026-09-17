@@ -41,13 +41,11 @@ class WorkspaceController extends Controller
 
         $this->toast('workspace created successfully');
 
-        return to_route('dashboard');
+        return to_route('workspaces.dashboard', $workspace);
     }
 
     public function show(Workspace $workspace): Response
     {
-        // Gate::authorize('view', $workspace);
-
         $workspace->load([
             'owner:id,name,avatar',
             'members:id,name,avatar',
