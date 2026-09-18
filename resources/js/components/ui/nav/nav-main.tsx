@@ -5,10 +5,10 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
-} from "@/components/ui/sidebar";
+} from "@/components/ui/sidebar/sidebar";
 import { useCurrentUrl } from "@/hooks/use-current-url";
 import type { NavItem } from "@/types";
-import { PlaceholderPattern } from "./ui/placeholder-pattern";
+import { PlaceholderPattern } from "../placeholder-pattern";
 export function NavMain({
     items,
     title,

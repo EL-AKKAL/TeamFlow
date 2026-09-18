@@ -5,8 +5,8 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/form/input";
+import { Label } from "@/components/ui/form/label";
 import { store } from "@/routes/workspaces";
 import { Form } from "@inertiajs/react";
 import { useRef } from "react";

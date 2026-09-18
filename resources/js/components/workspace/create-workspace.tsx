@@ -3,7 +3,7 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
-} from "@/components/ui/sidebar";
+} from "@/components/ui/sidebar/sidebar";
 import type { NavItem } from "@/types";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { CreateWorkspaceForm } from "./create-workspace-form";

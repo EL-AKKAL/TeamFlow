@@ -1,10 +1,10 @@
 import { Link, usePage } from "@inertiajs/react";
 import { BookOpen, FolderGit2, LayoutGrid, Plus } from "lucide-react";
-import AppLogo from "@/components/app-logo";
-import { NavFooter } from "@/components/nav-footer";
-import { NavMain } from "@/components/nav-main";
-import { CreateWorkspace } from "@/components/create-workspace";
-import { NavUser } from "@/components/nav-user";
+import AppLogo from "@/components/ui/app-logo";
+import { NavFooter } from "@/components/ui/nav/nav-footer";
+import { NavMain } from "@/components/ui/nav/nav-main";
+import { CreateWorkspace } from "@/components/workspace/create-workspace";
+import { NavUser } from "@/components/ui/nav/nav-user";
 import {
     Sidebar,
     SidebarContent,
@@ -13,10 +13,10 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
-} from "@/components/ui/sidebar";
+} from "@/components/ui/sidebar/sidebar";
 import { dashboard } from "@/routes";
 import { dashboard as workspaceDashboard } from "@/routes/workspaces";
-import { createWorkspaceIcon } from "@/components/workspace-avatar";
+import { createWorkspaceIcon } from "@/components/ui/workspace-avatar";
 
 import type { NavItem, Workspace } from "@/types";
 
@@ -50,6 +50,14 @@ const workspaceActionItem: NavItem = {
     icon: Plus,
 };
 
+const visitWorkspaceActionItem: NavItem[] = [
+    {
+        title: "Manage Workspaces",
+        href: "/workspaces",
+        icon: FolderGit2,
+    },
+];
+
 export function AppSidebar() {
     const page = usePage();
 
@@ -79,6 +87,7 @@ export function AppSidebar() {
                 <NavMain items={mainNavItems} />
                 <NavMain items={workspaceNavItems} title="Workspaces" />
                 <CreateWorkspace item={workspaceActionItem} />
+                <NavMain items={visitWorkspaceActionItem} />
             </SidebarContent>
 
             <SidebarFooter>
