@@ -58,7 +58,6 @@ class WorkspaceController extends Controller
 
     public function edit(Workspace $workspace): Response
     {
-        // Gate::authorize('update', $workspace);
 
         return Inertia::render('Workspaces/Edit', [
             'workspace' => $workspace,
@@ -67,7 +66,6 @@ class WorkspaceController extends Controller
 
     public function update(Request $request, Workspace $workspace): RedirectResponse
     {
-        // Gate::authorize('update', $workspace);
 
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -83,7 +81,6 @@ class WorkspaceController extends Controller
 
     public function destroy(Workspace $workspace): RedirectResponse
     {
-        // Gate::authorize('delete', $workspace);
 
         $workspace->delete();
 
