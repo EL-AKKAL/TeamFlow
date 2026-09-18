@@ -17,6 +17,7 @@ import {
 import { dashboard } from "@/routes";
 import { dashboard as workspaceDashboard } from "@/routes/workspaces";
 import { createWorkspaceIcon } from "@/components/ui/workspace-avatar";
+import { index as workspaces } from "@/routes/workspaces";
 
 import type { NavItem, Workspace } from "@/types";
 
@@ -53,7 +54,7 @@ const workspaceActionItem: NavItem = {
 const visitWorkspaceActionItem: NavItem[] = [
     {
         title: "Manage Workspaces",
-        href: "/workspaces",
+        href: workspaces(),
         icon: FolderGit2,
     },
 ];
