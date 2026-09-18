@@ -44,18 +44,6 @@ class WorkspaceController extends Controller
         return to_route('workspaces.dashboard', $workspace);
     }
 
-    public function show(Workspace $workspace): Response
-    {
-        $workspace->load([
-            'owner:id,name,avatar',
-            'members:id,name,avatar',
-        ]);
-
-        return Inertia::render('Workspaces/Show', [
-            'workspace' => $workspace,
-        ]);
-    }
-
     public function edit(Workspace $workspace): Response
     {
 
