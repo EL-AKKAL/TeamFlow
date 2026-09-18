@@ -17,20 +17,16 @@ class DashboardController extends Controller
      */
     public function __invoke(Request $request, ?Workspace $workspace = null): Response|RedirectResponse
     {
-        if ($workspace) {
-            return Inertia::render('dashboard', [
-                'workspace' => $workspace->load('owner:id,name,avatar'),
-            ]);
-        }
+        if (! $workspace) {
+            $workspace = $request->user()->workspaces()->first();
 
-        $firstWorkspace = $request->user()->workspaces()->first();
-
-        if ($firstWorkspace) {
-            return to_route('workspaces.dashboard', $firstWorkspace);
+            if ($workspace) {
+                return to_route('workspaces.dashboard', $workspace);
+            }
         }
 
         return Inertia::render('dashboard', [
-            'workspace' => null,
+            'workspace' => $workspace?->load('owner:id,name,avatar'),
         ]);
     }
 }
