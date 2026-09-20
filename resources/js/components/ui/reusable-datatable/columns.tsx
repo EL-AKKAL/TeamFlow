@@ -1,27 +1,15 @@
 import { createColumnHelper } from "@tanstack/react-table";
-
 import { type DataTableFeatures } from "./data-table-features";
-
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type Payment = {
-    id: string;
-    amount: number;
-    status: "pending" | "processing" | "success" | "failed";
-    email: string;
-};
+import { type Workspace } from "@/types/index";
 
 // Use `accessor` for data columns and `display` for columns without one.
-const columnHelper = createColumnHelper<DataTableFeatures, Payment>();
+const columnHelper = createColumnHelper<DataTableFeatures, Workspace>();
 
 export const columns = columnHelper.columns([
-    columnHelper.accessor("status", {
-        header: "Status",
+    columnHelper.accessor("id", {
+        header: "ID",
     }),
-    columnHelper.accessor("email", {
-        header: "Email",
-    }),
-    columnHelper.accessor("amount", {
-        header: "Amount",
+    columnHelper.accessor("name", {
+        header: "Name",
     }),
 ]);
