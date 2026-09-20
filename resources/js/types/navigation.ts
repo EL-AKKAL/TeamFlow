@@ -13,3 +13,11 @@ export type NavItem = {
     icon?: LucideIcon | null | ComponentType;
     isActive?: (currentUrl: string) => boolean;
 };
+
+export type NavAction = {
+    title: string;
+    href: NonNullable<InertiaLinkProps["href"]>;
+    icon?: LucideIcon | null;
+    isActive?: (currentUrl: string) => boolean;
+    type?: "dialog" | "link";
+};

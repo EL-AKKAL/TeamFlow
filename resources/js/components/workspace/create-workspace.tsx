@@ -4,7 +4,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/components/ui/sidebar/sidebar";
-import type { NavItem } from "@/types";
+import type { NavAction, NavItem } from "@/types";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { CreateWorkspaceForm } from "./create-workspace-form";
 
@@ -12,7 +12,7 @@ export function CreateWorkspace({
     item,
     variant = "default",
 }: {
-    item: NavItem;
+    item: NavItem | NavAction;
     variant?: "default" | "outline";
 }) {
     if (variant === "default") {
