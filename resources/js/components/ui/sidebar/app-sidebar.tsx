@@ -1,5 +1,5 @@
 import { Link, usePage } from "@inertiajs/react";
-import { BookOpen, FolderGit2, LayoutGrid, Plus } from "lucide-react";
+import { BookOpen, FolderGit2, LayoutGrid, Plus, Users } from "lucide-react";
 import AppLogo from "@/components/ui/app-logo";
 import { NavFooter } from "@/components/ui/nav/nav-footer";
 import { NavMain } from "@/components/ui/nav/nav-main";
@@ -17,6 +17,7 @@ import { dashboard } from "@/routes";
 import { dashboard as workspaceDashboard } from "@/routes/workspaces";
 import { createWorkspaceIcon } from "@/components/ui/workspace-avatar";
 import { index as workspaces } from "@/routes/workspaces";
+import { index as members } from "@/routes/workspaces/members";
 
 import type { NavAction, NavItem, Workspace } from "@/types";
 import { NavActions } from "../nav/nav-actions";
@@ -64,12 +65,34 @@ export function AppSidebar() {
     const page = usePage();
 
     const workspaces = page.props.workspaces as Workspace[];
+    const currentWorkspace = page.props.currentWorkspace as Workspace | null;
 
     const workspaceNavItems: NavItem[] = workspaces.map((workspace) => ({
         title: workspace.name,
         href: workspaceDashboard(workspace.id),
         icon: createWorkspaceIcon(workspace.name),
     }));
+
+    const scopedNavItems: NavItem[] = currentWorkspace
+        ? [
+              {
+                  title: "Dashboard",
+                  href: workspaceDashboard(currentWorkspace.id),
+                  icon: LayoutGrid,
+              },
+              {
+                  title: "Members",
+                  href: members(currentWorkspace.id),
+                  icon: Users,
+              },
+          ]
+        : [
+              {
+                  title: "Dashboard",
+                  href: dashboard(),
+                  icon: LayoutGrid,
+              },
+          ];
 
     return (
         <Sidebar collapsible="icon" variant="inset">
@@ -86,7 +109,12 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={mainNavItems} />
+                <NavMain
+                    items={scopedNavItems}
+                    title={
+                        currentWorkspace ? currentWorkspace.name : "Platform"
+                    }
+                />
                 <NavMain items={workspaceNavItems} title="Workspaces" />
                 <NavActions items={navActions} />
             </SidebarContent>
