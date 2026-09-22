@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Concerns\HasToast;
+use App\Enums\RoleEnum;
 use App\Http\Requests\WorkspaceRequest;
 use App\Models\Workspace;
 use Illuminate\Http\RedirectResponse;
@@ -31,11 +32,11 @@ class WorkspaceController extends Controller
 
     public function store(WorkspaceRequest $request): RedirectResponse
     {
+        $user = $request->user();
+        $workspace = $user->ownedWorkspaces()->create($request->validated());
 
-        $workspace = Auth::user()->ownedWorkspaces()->create($request->validated());
-
-        $workspace->members()->attach(Auth::id(), [
-            'role' => 'owner',
+        $workspace->members()->attach($user->id, [
+            'role' => RoleEnum::OWNER->value,
             'joined_at' => now(),
         ]);
 

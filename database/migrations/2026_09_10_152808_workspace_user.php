@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('workspace_id')->constrained('workspaces')->cascadeOnDelete();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->string('role')->default('member');
+            $table->string('role')->default('viewer');
             $table->timestamp('joined_at')->nullable();
             $table->timestamps();
 
