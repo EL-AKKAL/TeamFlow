@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Workspace;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -26,6 +27,20 @@ class HandleInertiaRequests extends Middleware
         return parent::version($request);
     }
 
+    protected function resolveCurrentWorkspace(Request $request): ?array
+    {
+        $workspace = $request->route('workspace');
+
+        if (! $workspace instanceof Workspace) {
+            return null;
+        }
+
+        return [
+            'id' => $workspace->id,
+            'name' => $workspace->name,
+        ];
+    }
+
     /**
      * Define the props that are shared by default.
      *
@@ -45,6 +60,7 @@ class HandleInertiaRequests extends Middleware
                 ?->workspaces()
                 ->select('workspaces.id', 'workspaces.name')
                 ->get(),
+            'currentWorkspace' => fn () => $this->resolveCurrentWorkspace($request),
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
         ];
     }
