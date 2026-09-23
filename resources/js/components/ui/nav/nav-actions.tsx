@@ -5,7 +5,7 @@ import {
     SidebarMenuItem,
 } from "@/components/ui/sidebar/sidebar";
 import type { NavAction } from "@/types";
-import { CreateWorkspace } from "@/components/workspace/create-workspace";
+import { CreateWorkspace } from "@/components/workspaces/create-workspace";
 import { Link } from "@inertiajs/react";
 import { useCurrentUrl } from "@/hooks/use-current-url";
 
