@@ -4,6 +4,7 @@ import { DataTable } from "@/components/ui/reusable-datatable/data-table";
 // import { InviteMemberForm } from "@/components/members/invite-member-form";
 import type { Member } from "@/types";
 import { Head, usePage } from "@inertiajs/react";
+import { InviteMemberForm } from "@/components/members/invite-member-form";
 
 export default function MembersIndex() {
     const page = usePage();
@@ -22,7 +23,7 @@ export default function MembersIndex() {
                     title="Members"
                     description={`Manage who has access to ${currentWorkspace.name}`}
                 />
-                {/* <InviteMemberForm workspaceId={currentWorkspace.id} /> */}
+                <InviteMemberForm workspaceId={currentWorkspace.id} />
             </div>
 
             <DataTable columns={columns(currentWorkspace.id)} data={members} />

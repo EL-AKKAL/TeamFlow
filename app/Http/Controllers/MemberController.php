@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Concerns\HasToast;
+use App\Enums\RoleEnum;
 use App\Models\User;
 use App\Models\Workspace;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class MemberController extends Controller
 {
+    use HasToast;
+
     public function index(Workspace $workspace): Response
     {
         $members = $workspace->members()
@@ -30,7 +35,28 @@ class MemberController extends Controller
 
     public function create() {}
 
-    public function store(Request $request) {}
+    public function store(Request $request, Workspace $workspace): RedirectResponse
+    {
+        $validated = $request->validate([
+            'email' => ['required', 'email', 'exists:users,email'],
+            'role' => ['required', Rule::enum(RoleEnum::class)],
+        ]);
+
+        $user = User::where('email', $validated['email'])->first();
+
+        if ($workspace->members()->where('user_id', $user->id)->exists()) {
+            return back()->withErrors(['email' => 'This user is already a member.']);
+        }
+
+        $workspace->members()->attach($user->id, [
+            'role' => $validated['role'],
+            'joined_at' => now(),
+        ]);
+
+        $this->toast('member invited successfully');
+
+        return back();
+    }
 
     public function show(string $id) {}
 
