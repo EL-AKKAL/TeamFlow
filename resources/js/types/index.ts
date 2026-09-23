@@ -6,3 +6,11 @@ export type Workspace = {
     id: number;
     name: string;
 };
+
+export interface Member {
+    id: number;
+    name: string;
+    email: string;
+    role: string;
+    joined_at: string;
+}
