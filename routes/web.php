@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\WorkspaceController;
+use App\Models\Workspace;
 use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'welcome')->name('home');
@@ -12,7 +13,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('workspaces/{workspace}/dashboard', DashboardController::class)
         ->name('workspaces.dashboard');
 
-    Route::resource('workspaces', WorkspaceController::class);
+    Route::resource('workspaces', WorkspaceController::class)->except(['create', 'edit', 'show']);
+
+    Route::get('workspaces/{workspace}', function (Workspace $workspace) {
+        return to_route('workspaces.dashboard', $workspace);
+    });
 
     Route::prefix('workspaces/{workspace}/members')
         ->name('workspaces.members.')
