@@ -3,7 +3,7 @@ import { Plus } from "lucide-react";
 import { PlaceholderPattern } from "@/components/ui/placeholder-pattern";
 import { dashboard } from "@/routes";
 import type { NavItem, Workspace } from "@/types";
-import { CreateWorkspace } from "@/components/workspace/create-workspace";
+import { CreateWorkspace } from "@/components/workspaces/create-workspace";
 
 const workspaceActionItem: NavItem = {
     title: "New Workspace",
