@@ -6,6 +6,7 @@ use App\Concerns\HasToast;
 use App\Enums\RoleEnum;
 use App\Models\User;
 use App\Models\Workspace;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -62,7 +63,27 @@ class MemberController extends Controller
 
     public function edit(string $id) {}
 
-    public function update(Request $request, string $id) {}
+    public function update(Request $request, Workspace $workspace, User $user): RedirectResponse
+    {
+        $validated = $request->validate([
+            'role' => ['required', Rule::enum(RoleEnum::class)],
+        ]);
 
-    public function destroy(string $id) {}
+        $workspace->members()->updateExistingPivot($user->id, [
+            'role' => $validated['role'],
+        ]);
+
+        $this->toast('role updated successfully');
+
+        return back();
+    }
+
+    public function destroy(Workspace $workspace, User $user): RedirectResponse
+    {
+        $workspace->members()->detach($user->id);
+
+        $this->toast('member removed successfully');
+
+        return back();
+    }
 }

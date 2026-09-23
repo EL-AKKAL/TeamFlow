@@ -2,7 +2,7 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { type DataTableFeatures } from "@/components/ui/reusable-datatable/data-table-features";
 import { RowActions } from "@/components/ui/reusable-datatable/datatable-dropdown";
 import { DialogContent } from "@/components/ui/dialog";
-// import { ChangeRoleForm } from "./change-role-form";
+import { ChangeRoleForm } from "./change-role-form";
 import type { Member } from "@/types";
 
 export function columns(workspaceId: number) {
@@ -29,11 +29,10 @@ export function columns(workspaceId: number) {
                     }}
                     editContent={
                         <DialogContent>
-                            {/* <ChangeRoleForm
+                            <ChangeRoleForm
                                 workspaceId={workspaceId}
                                 member={row.original}
-                            /> */}
-                            <span>whatever</span>
+                            />
                         </DialogContent>
                     }
                 />
