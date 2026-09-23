@@ -1,5 +1,5 @@
 import Heading from "@/components/ui/heading";
-import { columns } from "@/components/ui/reusable-datatable/columns";
+import { columns } from "@/components/workspaces/columns";
 import { DataTable } from "@/components/ui/reusable-datatable/data-table";
 import { Workspace } from "@/types";
 import { Head, usePage } from "@inertiajs/react";
