@@ -26,7 +26,7 @@ class DashboardController extends Controller
         }
 
         return Inertia::render('dashboard', [
-            'workspace' => $workspace?->load('owner:id,name,avatar'),
+            'workspace' => $workspace?->load('owner:id,name,avatar_url'),
         ]);
     }
 }
