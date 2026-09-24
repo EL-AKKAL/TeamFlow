@@ -1,4 +1,4 @@
-import { Form, Head, usePage } from "@inertiajs/react";
+import { Form, Head, router, usePage } from "@inertiajs/react";
 import { Link } from "@inertiajs/react";
 import ProfileController from "@/actions/App/Http/Controllers/Settings/ProfileController";
 import DeleteUser from "@/components/account/delete-user";
@@ -10,6 +10,20 @@ import { Label } from "@/components/ui/form/label";
 import { edit } from "@/routes/profile";
 import type { Auth } from "@/types";
 import { send } from "@/routes/verification";
+import { useState } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Trash } from "lucide-react";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 type PageProps = {
     auth: Auth;
@@ -23,6 +37,21 @@ export default function Profile({
     status?: string;
 }) {
     const { auth } = usePage<PageProps>().props;
+    const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+
+    function handleAvatarChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const file = e.target.files?.[0];
+        if (file) {
+            setAvatarPreview(URL.createObjectURL(file));
+        }
+    }
+
+    function handleDeleteAvatar() {
+        router.delete(ProfileController.destroyAvatar.url(), {
+            preserveScroll: true,
+            onSuccess: () => setAvatarPreview(null),
+        });
+    }
 
     return (
         <>
@@ -46,6 +75,83 @@ export default function Profile({
                 >
                     {({ processing, errors }) => (
                         <>
+                            <div className="grid gap-2">
+                                <Label htmlFor="avatar">Avatar</Label>
+
+                                <div className="flex items-center gap-4">
+                                    <Avatar className="h-16 w-16">
+                                        <AvatarImage
+                                            src={
+                                                avatarPreview ??
+                                                auth.user.avatar_url ??
+                                                undefined
+                                            }
+                                            alt={auth.user.name}
+                                        />
+                                        <AvatarFallback>
+                                            {auth.user.name
+                                                .charAt(0)
+                                                .toUpperCase()}
+                                        </AvatarFallback>
+                                    </Avatar>
+
+                                    <div className="flex gap-2 items-center">
+                                        <Input
+                                            id="avatar"
+                                            type="file"
+                                            name="avatar"
+                                            accept="image/*"
+                                            className="w-auto"
+                                            onChange={handleAvatarChange}
+                                        />
+                                        {auth.user.avatar_url && (
+                                            <AlertDialog>
+                                                <AlertDialogTrigger asChild>
+                                                    <Button
+                                                        type="button"
+                                                        variant="outline"
+                                                        size="sm"
+                                                        className="w-fit"
+                                                    >
+                                                        <Trash className="text-muted-foreground" />
+                                                    </Button>
+                                                </AlertDialogTrigger>
+                                                <AlertDialogContent>
+                                                    <AlertDialogHeader>
+                                                        <AlertDialogTitle>
+                                                            Remove your avatar?
+                                                        </AlertDialogTitle>
+                                                        <AlertDialogDescription>
+                                                            This will delete
+                                                            your current profile
+                                                            picture. You can
+                                                            upload a new one
+                                                            anytime.
+                                                        </AlertDialogDescription>
+                                                    </AlertDialogHeader>
+                                                    <AlertDialogFooter>
+                                                        <AlertDialogCancel>
+                                                            Cancel
+                                                        </AlertDialogCancel>
+                                                        <AlertDialogAction
+                                                            onClick={
+                                                                handleDeleteAvatar
+                                                            }
+                                                        >
+                                                            Remove
+                                                        </AlertDialogAction>
+                                                    </AlertDialogFooter>
+                                                </AlertDialogContent>
+                                            </AlertDialog>
+                                        )}
+                                    </div>
+                                </div>
+
+                                <InputError
+                                    className="mt-2"
+                                    message={errors.avatar}
+                                />
+                            </div>
                             <div className="grid gap-2">
                                 <Label htmlFor="name">Name</Label>
 
