@@ -6,7 +6,7 @@ import { Head, usePage } from "@inertiajs/react";
 
 export default function DemoPage() {
     const page = usePage();
-    const data = page.props.workspaces as Workspace[];
+    const data = page.props.workspacesList as Workspace[];
 
     return (
         <div className="container mx-auto p-10">
