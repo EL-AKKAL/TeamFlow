@@ -24,6 +24,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { useInitials } from "@/hooks/use-initials";
 
 type PageProps = {
     auth: Auth;
@@ -38,6 +39,7 @@ export default function Profile({
 }) {
     const { auth } = usePage<PageProps>().props;
     const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+    const getInitials = useInitials();
 
     function handleAvatarChange(e: React.ChangeEvent<HTMLInputElement>) {
         const file = e.target.files?.[0];
@@ -89,9 +91,7 @@ export default function Profile({
                                             alt={auth.user.name}
                                         />
                                         <AvatarFallback>
-                                            {auth.user.name
-                                                .charAt(0)
-                                                .toUpperCase()}
+                                            {getInitials(auth.user.name)}
                                         </AvatarFallback>
                                     </Avatar>
 
