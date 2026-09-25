@@ -2,10 +2,7 @@ import { destroy } from "@/routes/workspaces/members";
 import type { Member, RowAction } from "@/types";
 import { ChangeRoleForm } from "./change-role-form";
 
-export function getMemberActions(
-    workspaceId: number,
-    member: Member,
-): RowAction[] {
+export function getActions(workspaceId: number, member: Member): RowAction[] {
     return [
         {
             type: "dialog",

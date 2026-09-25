@@ -4,7 +4,7 @@ import { RowActions } from "@/components/ui/reusable-datatable/datatable-dropdow
 import type { Member } from "@/types";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useInitials } from "@/hooks/use-initials";
-import { getMemberActions } from "./actions";
+import { getActions } from "./actions";
 
 export function columns(workspaceId: number) {
     const columnHelper = createColumnHelper<DataTableFeatures, Member>();
@@ -40,9 +40,7 @@ export function columns(workspaceId: number) {
             id: "actions",
             header: "Actions",
             cell: ({ row }) => (
-                <RowActions
-                    actions={getMemberActions(workspaceId, row.original)}
-                />
+                <RowActions actions={getActions(workspaceId, row.original)} />
             ),
         }),
     ]);
