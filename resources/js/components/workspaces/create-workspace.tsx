@@ -7,6 +7,7 @@ import {
 import type { NavAction, NavItem } from "@/types";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { CreateWorkspaceForm } from "./create-workspace-form";
+import { Button } from "../ui/button";
 
 export function CreateWorkspace({
     item,
@@ -45,14 +46,12 @@ export function CreateWorkspace({
         <Dialog>
             <DialogTrigger
                 asChild
-                className="w-full flex items-center justify-center px-5 border"
+                className=" flex items-center justify-center px-5 border"
             >
-                <SidebarMenuButton tooltip={{ children: item.title }}>
+                <Button>
                     {item.icon && <item.icon />}
-                    <span className="group-data-[collapsible=icon]:hidden">
-                        {item.title}
-                    </span>
-                </SidebarMenuButton>
+                    <span>{item.title}</span>
+                </Button>
             </DialogTrigger>
             <DialogContent>
                 <CreateWorkspaceForm />
