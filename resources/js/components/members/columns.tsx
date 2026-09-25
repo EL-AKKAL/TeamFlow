@@ -4,19 +4,38 @@ import { RowActions } from "@/components/ui/reusable-datatable/datatable-dropdow
 import { DialogContent } from "@/components/ui/dialog";
 import { ChangeRoleForm } from "./change-role-form";
 import type { Member } from "@/types";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { useInitials } from "@/hooks/use-initials";
 
 export function columns(workspaceId: number) {
     const columnHelper = createColumnHelper<DataTableFeatures, Member>();
 
     return columnHelper.columns([
-        columnHelper.accessor("name", { header: "Name" }),
-        columnHelper.accessor("email", { header: "Email" }),
-        columnHelper.accessor("role", {
-            header: "Role",
-            cell: ({ getValue }) => (
-                <span className="capitalize">{getValue()}</span>
-            ),
+        columnHelper.accessor("name", {
+            header: "User",
+            cell: ({ row }) => {
+                const member = row.original;
+                const getInitials = useInitials();
+
+                return (
+                    <div className="flex items-center gap-2">
+                        <Avatar className="size-8">
+                            <AvatarImage
+                                src={member.avatar_url}
+                                alt={member.name}
+                            />
+                            <AvatarFallback>
+                                {getInitials(member.name)}
+                            </AvatarFallback>
+                        </Avatar>
+
+                        <span>{member.name}</span>
+                    </div>
+                );
+            },
         }),
+        columnHelper.accessor("email", { header: "Email" }),
+
         columnHelper.display({
             id: "actions",
             header: "Actions",
