@@ -1,10 +1,10 @@
 import { createColumnHelper } from "@tanstack/react-table";
 import { type DataTableFeatures } from "@/components/ui/reusable-datatable/data-table-features";
 import { RowActions } from "@/components/ui/reusable-datatable/datatable-dropdown";
-import { ChangeRoleForm } from "./change-role-form";
-import type { Member, RowAction } from "@/types";
+import type { Member } from "@/types";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { useInitials } from "@/hooks/use-initials";
+import { getMemberActions } from "./actions";
 
 export function columns(workspaceId: number) {
     const columnHelper = createColumnHelper<DataTableFeatures, Member>();
@@ -39,34 +39,11 @@ export function columns(workspaceId: number) {
         columnHelper.display({
             id: "actions",
             header: "Actions",
-            cell: ({ row }) => {
-                const member = row.original;
-
-                const actions: RowAction[] = [
-                    {
-                        type: "dialog",
-                        label: "Edit role",
-                        content: (
-                            <ChangeRoleForm
-                                workspaceId={workspaceId}
-                                member={member}
-                            />
-                        ),
-                    },
-                    { type: "separator" },
-                    {
-                        type: "delete",
-                        label: "Remove from workspace",
-                        route: {
-                            method: "delete",
-                            url: `/workspaces/${workspaceId}/members/${member.id}`,
-                        },
-                        description: `${member.name} will lose access to this workspace immediately.`,
-                    },
-                ];
-
-                return <RowActions actions={actions} />;
-            },
+            cell: ({ row }) => (
+                <RowActions
+                    actions={getMemberActions(workspaceId, row.original)}
+                />
+            ),
         }),
     ]);
 }
