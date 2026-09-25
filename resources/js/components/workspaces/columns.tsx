@@ -1,11 +1,13 @@
 import { createColumnHelper } from "@tanstack/react-table";
 import { type DataTableFeatures } from "@/components/ui/reusable-datatable/data-table-features";
-import { type Workspace } from "@/types/index";
+import { RowAction, type Workspace } from "@/types/index";
 import { RowActions } from "@/components/ui/reusable-datatable/datatable-dropdown";
 import { CreateWorkspaceForm } from "@/components/workspaces/create-workspace-form";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useInitials } from "@/hooks/use-initials";
-
+import { Edit3, Trash, Users } from "lucide-react";
+import { index as members } from "@/routes/workspaces/members";
+import { destroy } from "@/routes/workspaces";
 // Use `accessor` for data columns and `display` for columns without one.
 const columnHelper = createColumnHelper<DataTableFeatures, Workspace>();
 
@@ -53,15 +55,37 @@ export const columns = columnHelper.columns([
     columnHelper.display({
         id: "actions",
         header: "Actions",
-        cell: ({ row }) => (
-            <RowActions
-                item="workspace"
-                deleteRoute={{
-                    method: "delete",
-                    url: `/workspaces/${row.original.id}`,
-                }}
-                editContent={<CreateWorkspaceForm />}
-            />
-        ),
+        cell: ({ row }) => {
+            const workspace = row.original as Workspace;
+
+            const actions: RowAction[] = [
+                {
+                    type: "dialog",
+                    label: "Edit workspace",
+                    icon: Edit3,
+                    content: <CreateWorkspaceForm />,
+                },
+                {
+                    type: "link",
+                    label: "Manage members",
+                    href: members.url(workspace.id),
+                    icon: Users,
+                },
+                { type: "separator" },
+                {
+                    type: "delete",
+                    label: "Delete workspace",
+                    icon: Trash,
+                    route: {
+                        method: "delete",
+                        url: destroy.url(workspace.id),
+                    },
+                    description:
+                        "This will permanently delete the workspace and remove all members.",
+                },
+            ];
+
+            return <RowActions actions={actions} />;
+        },
     }),
 ]);
